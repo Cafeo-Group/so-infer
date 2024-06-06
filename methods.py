@@ -56,18 +56,17 @@ def split_samples(samples: list) -> tuple:
 
 def cut_by_limit(samples: list, limit: int) -> list:
     '''Cuts the samples list by the limit specified. It will remove the samples that exceed the limit for each path.
-    Still under development.
     '''
     path_len_dict = {}
+    samples_copy = samples.copy()
     for sample in samples:
-        # if sample[1] not in path_len_dict:
-        #     path_len_dict[sample[1]] = 0
-        # elif sample[1] in path_len_dict and path_len_dict[sample[1]] <= limit:
-        #     path_len_dict[sample[1]] += 1
-        # else:
-        #     print(sample[1],count)
-            samples.remove(sample)
-    return samples
+        if sample[1] not in path_len_dict:
+            path_len_dict[sample[1]] = 0
+        elif sample[1] in path_len_dict and path_len_dict[sample[1]] <= limit:
+            path_len_dict[sample[1]] += 1
+        else:
+            samples_copy.remove(sample)
+    return samples_copy
 
 def get_path(samples: list) -> set:
     '''Returns a set with the paths of the samples.'''
