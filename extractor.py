@@ -2,7 +2,7 @@ from methods import filter_by_date, get_samples_from_csv, split_samples, get_pat
 from datetime import datetime
 
 def main():
-    samples = filter_by_date(get_samples_from_csv('sampleQuestions.csv'), datetime.fromisoformat('2023-01-01'), datetime.fromisoformat('2024-06-05'))
+    samples = filter_by_date(get_samples_from_csv('initSampleQuestions.csv'), datetime.fromisoformat('2023-01-01'), datetime.fromisoformat('2024-06-05'))
     answered, unanswered = split_samples(samples)
 
     paths_in_both = get_path(answered) & get_path(unanswered)    
