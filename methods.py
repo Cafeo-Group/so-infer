@@ -4,14 +4,16 @@ from random import shuffle
 import csv
 
 def get_samples() -> list:
-    '''Reads samples from stdin and returns a list of tuples with the samples.'''
+    '''Reads samples from stdin and returns a list of tuples with the samples.
+    '''
     samples = []
     for line in stdin: 
         samples.append(tuple(line.strip().split(',')))
     return samples
 
 def get_samples_from_csv(file: str) -> list:
-    '''Reads samples from a csv file and returns a list of tuples with the samples.'''
+    '''Reads samples from a csv file and returns a list of tuples with the samples.
+    '''
     samples = []
     with open(file, 'r') as f:
         csv_reader = csv.reader(f)
@@ -24,7 +26,8 @@ def get_samples_from_csv(file: str) -> list:
     return samples
 
 def filter_by_date(samples: list, date_start: datetime, date_end: datetime) -> list:
-    '''Filters samples by date and returns a list of tuples with the samples that are within the date range.'''
+    '''Filters samples by date and returns a list of tuples with the samples that are within the date range.
+    '''
     desired = []
     for sample in samples:
         date = datetime.fromisoformat(sample[3])
@@ -33,7 +36,8 @@ def filter_by_date(samples: list, date_start: datetime, date_end: datetime) -> l
     return desired
 
 def get_answered(samples: list) -> list:
-    '''Returns a list of tuples with the code samples that have an accepted answer.'''
+    '''Returns a list of tuples with the code samples that have an accepted answer.
+    '''
     desired = []
     for sample in samples:
         if sample[6] == '':
@@ -41,7 +45,8 @@ def get_answered(samples: list) -> list:
     return desired
 
 def get_unanswered(samples: list) -> list:
-    '''Returns a list of tuples with the samples that do not have an accepted answer.'''
+    '''Returns a list of tuples with the samples that do not have an accepted answer.
+    '''
     desired = []
     for sample in samples:
         if sample[6] != '':
@@ -49,7 +54,8 @@ def get_unanswered(samples: list) -> list:
     return desired
 
 def split_samples(samples: list) -> tuple:
-    '''Splits the samples into two lists: one with the answered samples and another with the unanswered samples.'''
+    '''Splits the samples into two lists: one with the answered samples and another with the unanswered samples.
+    '''
     answered = get_answered(samples)
     unanswered = get_unanswered(samples)
     return answered, unanswered
@@ -69,14 +75,16 @@ def cut_by_limit(samples: list, limit: int) -> list:
     return samples_copy
 
 def get_path(samples: list) -> set:
-    '''Returns a set with the paths of the samples.'''
+    '''Returns a set with the paths of the samples.
+    '''
     categories = set()
     for sample in samples:
         categories.add(sample[1])
     return categories
 
 def get_by_path(samples: list, path: str, limit_for_path: int=None) -> list:
-    '''Returns a list of tuples with the samples that have the specified path.'''
+    '''Returns a list of tuples with the samples that have the specified path.
+    '''
     desired = []
     shuffle(samples)
     for sample in samples:
@@ -90,8 +98,9 @@ def get_by_path(samples: list, path: str, limit_for_path: int=None) -> list:
         return cut
 
 def create_csv_with_samples(samples: list, file: str):
-    '''Creates a csv file with the samples. The file will have the following columns: framework, path, id, creationDate, ownerUserId, postTypeId, acceptedAnswerId.'''
-    with open(file, 'w', newline='') as f:
+    '''Creates a csv file with the samples. The file will have the following columns: framework, path, id, creationDate, ownerUserId, postTypeId, acceptedAnswerId.
+    '''
+    with open(file, 'a+', newline='') as f:
         csv_writer = csv.writer(f)
         csv_writer.writerow(['framework', 'path', 'id', 'creationDate', 'ownerUserId', 'postTypeId', 'acceptedAnswerId'])
         for sample in samples:
