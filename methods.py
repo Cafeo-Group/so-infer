@@ -26,7 +26,8 @@ def get_samples_from_csv(file: str) -> list:
     return samples
 
 def filter_by_date(samples: list, date_start: datetime, date_end: datetime) -> list:
-    '''Filters samples by date and returns a list of tuples with the samples that are within the date range.
+    '''Filters samples by date and returns a list of tuples with the samples that are 
+    within the date range.
     '''
     desired = []
     for sample in samples:
@@ -40,7 +41,7 @@ def get_answered(samples: list) -> list:
     '''
     desired = []
     for sample in samples:
-        if sample[6] == '':
+        if sample[6] != '':
             desired.append(sample)
     return desired
 
@@ -49,12 +50,13 @@ def get_unanswered(samples: list) -> list:
     '''
     desired = []
     for sample in samples:
-        if sample[6] != '':
+        if sample[6] == '':
             desired.append(sample)
     return desired
 
 def split_samples(samples: list) -> tuple:
-    '''Splits the samples into two lists: one with the answered samples and another with the unanswered samples.
+    '''Splits the samples into two lists: one with the answered samples and 
+    another with the unanswered samples.
     '''
     answered = get_answered(samples)
     unanswered = get_unanswered(samples)
@@ -74,13 +76,13 @@ def cut_by_limit(samples: list, limit: int) -> list:
             samples_copy.remove(sample)
     return samples_copy
 
-def get_path(samples: list) -> set:
+def get_paths(samples: list) -> set:
     '''Returns a set with the paths of the samples.
     '''
-    categories = set()
+    paths = set()
     for sample in samples:
-        categories.add(sample[1])
-    return categories
+        paths.add(sample[1])
+    return paths
 
 def get_by_path(samples: list, path: str, limit_for_path: int=None) -> list:
     '''Returns a list of tuples with the samples that have the specified path.
@@ -100,7 +102,7 @@ def get_by_path(samples: list, path: str, limit_for_path: int=None) -> list:
 def create_csv_with_samples(samples: list, file: str):
     '''Creates a csv file with the samples. The file will have the following columns: framework, path, id, creationDate, ownerUserId, postTypeId, acceptedAnswerId.
     '''
-    with open(file, 'a+', newline='') as f:
+    with open(file, 'w', newline='') as f:
         csv_writer = csv.writer(f)
         csv_writer.writerow(['framework', 'path', 'id', 'creationDate', 'ownerUserId', 'postTypeId', 'acceptedAnswerId'])
         for sample in samples:
